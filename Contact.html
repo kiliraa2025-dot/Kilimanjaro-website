@@ -7,11 +7,7 @@
   <link rel="icon" href="images/kili_logo.png" />
 
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
 
     html, body {
       font-family: Arial, sans-serif;
@@ -41,7 +37,6 @@
       z-index: 20;
     }
 
-    /* Hamburger menu */
     .hamburger {
       display: flex;
       flex-direction: column;
@@ -57,7 +52,6 @@
       border-radius: 2px;
     }
 
-    /* Dropdown menu */
     .dropdown {
       display: none;
       position: absolute;
@@ -78,19 +72,11 @@
       transition: background 0.3s;
     }
 
-    .dropdown a:hover {
-      background: rgba(255, 255, 255, 0.2);
-    }
+    .dropdown a:hover { background: rgba(255, 255, 255, 0.2); }
 
-    .logo-group {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
+    .logo-group { display: flex; align-items: center; gap: 10px; }
 
-    .logo-group img {
-      height: 40px;
-    }
+    .logo-group img { height: 40px; }
 
     #title {
       text-align: center;
@@ -99,18 +85,10 @@
       z-index: 10;
     }
 
-    #title h1 {
-      font-size: 48px;
-      font-weight: bold;
-    }
+    #title h1 { font-size: 48px; font-weight: bold; }
 
-    #title .kiliman {
-      color: black;
-    }
-
-    #title .jaro {
-      color: white;
-    }
+    #title .kiliman { color: black; }
+    #title .jaro { color: white; }
 
     #content {
       max-width: 800px;
@@ -129,10 +107,7 @@
       padding-bottom: 5px;
     }
 
-    a.email-link {
-      color: white;
-      text-decoration: underline;
-    }
+    a.email-link { color: white; text-decoration: underline; }
 
     .suggestions {
       margin-top: 40px;
@@ -141,24 +116,28 @@
       border-radius: 10px;
     }
 
-    .suggestions p {
-      margin-bottom: 10px;
+    .suggestions p { margin-bottom: 10px; }
+
+    .feedback-form input, .feedback-form textarea {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 15px;
+      border: none;
+      border-radius: 5px;
     }
 
-    .suggestions a {
-      display: inline-block;
+    .feedback-form button {
       background-color: white;
       color: #4e0506;
       padding: 10px 20px;
+      border: none;
       border-radius: 5px;
-      text-decoration: none;
       font-weight: bold;
+      cursor: pointer;
       transition: background-color 0.3s;
     }
 
-    .suggestions a:hover {
-      background-color: #ccc;
-    }
+    .feedback-form button:hover { background-color: #ccc; }
 
     footer {
       background-color: rgba(0, 0, 0, 0.7);
@@ -178,46 +157,32 @@
       transition: color 0.3s;
     }
 
-    footer a:hover {
-      color: #d44638;
-    }
+    footer a:hover { color: #d44638; }
 
-    footer a.tiktok:hover {
-      color: #00f2ea;
-    }
+    footer a.tiktok:hover { color: #00f2ea; }
 
     @media (max-width: 600px) {
-      #title h1 {
-        font-size: 32px;
-      }
-
-      #content {
-        font-size: 16px;
-      }
+      #title h1 { font-size: 32px; }
+      #content { font-size: 16px; }
     }
   </style>
 
-  <!-- FontAwesome for social icons -->
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" rel="stylesheet">
 </head>
 <body>
 
-  <!-- Header -->
   <div id="header">
-    <!-- Hamburger Menu -->
     <div class="hamburger" onclick="toggleMenu()">
       <span></span>
       <span></span>
       <span></span>
     </div>
 
-    <!-- Logo Area -->
     <div class="logo-group">
       <img src="images/kili_logo.png" alt="Kilimanjaro Logo">
       <img src="images/uj_20_years.png" alt="UJ 20 Years Logo">
     </div>
 
-    <!-- Dropdown Menu -->
     <div class="dropdown" id="dropdown-menu">
       <a href="Index.html">Home</a>
       <a href="leadership_members/2025/leadership.html">Leadership</a>
@@ -228,13 +193,11 @@
     </div>
   </div>
 
-  <!-- Title -->
   <div id="title">
     <h1><span class="kiliman">KILIMAN</span><span class="jaro">JARO</span></h1>
     <p>Contact Us</p>
   </div>
 
-  <!-- Contact Content -->
   <div id="content">
     <h2>Residence Manager</h2>
     <p>
@@ -252,30 +215,81 @@
       <a class="email-link" href="mailto:Lnyaba@uj.ac.za">Lnyaba@uj.ac.za</a>
     </p>
 
+    <!-- Feedback Section -->
     <div class="suggestions">
       <p>Have suggestions or feedback for the residence?</p>
-      <a href="https://docs.google.com/forms/d/e/1FAIpQLSfUK85oy5fxZVbJCE1SXFs4RcYA-NFVUjKaHz8A6OZedka20g/viewform?usp=header" target="_blank">
-        Submit via Google Form
-      </a>
+
+      <form class="feedback-form" id="feedbackForm">
+        <input type="text" id="name" placeholder="Your name (optional)" />
+        <textarea id="message" placeholder="Your feedback..." required></textarea>
+        <button type="submit">Submit Feedback</button>
+      </form>
+
+      <p id="statusMessage" style="margin-top:10px; color:lightgreen;"></p>
     </div>
   </div>
 
-  <!-- Footer -->
   <footer>
-    <a href="https://www.instagram.com/kilimanjaro_residence_uj/" target="_blank" rel="noopener" aria-label="Instagram">
-      <i class="fab fa-instagram"></i>
-    </a>
-    <a href="https://www.tiktok.com/@itsnotfar_afterall" target="_blank" rel="noopener" aria-label="TikTok" class="tiktok">
-      <i class="fab fa-tiktok"></i>
-    </a>
+    <a href="https://www.instagram.com/kilimanjaro_residence_uj/" target="_blank"><i class="fab fa-instagram"></i></a>
+    <a href="https://www.tiktok.com/@itsnotfar_afterall" target="_blank" class="tiktok"><i class="fab fa-tiktok"></i></a>
   </footer>
 
-  <!-- JS for Menu -->
   <script>
     function toggleMenu() {
       const dropdown = document.getElementById('dropdown-menu');
       dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
     }
+  </script>
+
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js"></script>
+
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyDhl8-z01pNxtiL6kWwmla79OFzsOamHnA",
+      authDomain: "kilimanjaro-28f6d.firebaseapp.com",
+      projectId: "kilimanjaro-28f6d",
+      storageBucket: "kilimanjaro-28f6d.firebasestorage.app",
+      messagingSenderId: "1034940817803",
+      appId: "1:1034940817803:web:51be29aeff42e296870f8e",
+      measurementId: "G-BEL0CY2F31"
+    };
+
+    const app = firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+
+    const form = document.getElementById('feedbackForm');
+    const statusMessage = document.getElementById('statusMessage');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const name = document.getElementById('name').value.trim();
+      const message = document.getElementById('message').value.trim();
+
+      if (!message) {
+        statusMessage.textContent = 'Please enter your feedback.';
+        statusMessage.style.color = 'red';
+        return;
+      }
+
+      try {
+        await db.collection('feedback').add({
+          name: name || 'Anonymous',
+          message,
+          timestamp: new Date()
+        });
+
+        statusMessage.textContent = 'Thank you! Your feedback has been submitted.';
+        statusMessage.style.color = 'lightgreen';
+        form.reset();
+      } catch (error) {
+        console.error('Error submitting feedback:', error);
+        statusMessage.textContent = 'Error submitting feedback. Try again.';
+        statusMessage.style.color = 'red';
+      }
+    });
   </script>
 
 </body>

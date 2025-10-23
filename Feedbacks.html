@@ -13,7 +13,7 @@
       font-family: Arial, sans-serif;
       background-color: #4e0506;
       color: white;
-      min-height: 100vh;
+      height: 100%;
       overflow-x: hidden;
     }
 
@@ -75,7 +75,6 @@
     .dropdown a:hover { background: rgba(255, 255, 255, 0.2); }
 
     .logo-group { display: flex; align-items: center; gap: 10px; }
-
     .logo-group img { height: 40px; }
 
     #title {
@@ -86,43 +85,36 @@
     }
 
     #title h1 { font-size: 48px; font-weight: bold; }
-
     #title .kiliman { color: black; }
     #title .jaro { color: white; }
 
     #feedbackContainer {
       max-width: 800px;
-      margin: 40px auto;
-      padding: 0 15px 50px;
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
+      margin: 30px auto;
+      padding: 0 15px;
       position: relative;
       z-index: 10;
     }
 
     .feedback-card {
       background-color: rgba(255, 255, 255, 0.1);
-      padding: 20px;
+      padding: 15px;
       border-radius: 10px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.3);
-      transition: transform 0.3s;
-    }
-
-    .feedback-card:hover {
-      transform: translateY(-3px);
+      margin-bottom: 20px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+      word-wrap: break-word;
     }
 
     .feedback-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 10px;
+      margin-bottom: 8px;
     }
 
     .feedback-header h3 {
-      margin: 0;
       font-size: 20px;
+      margin: 0;
       color: #fff;
     }
 
@@ -133,9 +125,8 @@
 
     .feedback-message {
       font-size: 16px;
-      line-height: 1.6;
+      line-height: 1.5;
       color: #eee;
-      white-space: pre-wrap;
     }
 
     footer {
@@ -161,15 +152,15 @@
 
     @media (max-width: 600px) {
       #title h1 { font-size: 32px; }
-      .feedback-card { font-size: 15px; }
+      .feedback-message { font-size: 15px; }
     }
   </style>
 
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" rel="stylesheet">
 </head>
+
 <body>
 
-  <!-- Header -->
   <div id="header">
     <div class="hamburger" onclick="toggleMenu()">
       <span></span><span></span><span></span>
@@ -185,86 +176,77 @@
       <a href="leadership_members/2025/leadership.html">Leadership</a>
       <a href="Games.html">Games</a>
       <a href="Contact.html">Contact</a>
-      <a href="Feedbacks.html">Feedbacks</a>
       <a href="About.html">About</a>
       <a href="Admin_Login.html">Admin Login</a>
     </div>
   </div>
 
-  <!-- Title -->
   <div id="title">
     <h1><span class="kiliman">KILIMAN</span><span class="jaro">JARO</span></h1>
     <p>Feedbacks</p>
   </div>
 
-  <!-- Feedback Display -->
   <div id="feedbackContainer">
-    <p style="text-align:center; color:#ccc;">Loading feedbacks...</p>
+    <p style="text-align:center;">Loading feedbacks...</p>
   </div>
 
-  <!-- Footer -->
   <footer>
-    <a href="https://www.instagram.com/kilimanjaro_residence_uj/" target="_blank">
-      <i class="fab fa-instagram"></i>
-    </a>
-    <a href="https://www.tiktok.com/@itsnotfar_afterall" target="_blank" class="tiktok">
-      <i class="fab fa-tiktok"></i>
-    </a>
+    <a href="https://www.instagram.com/kilimanjaro_residence_uj/" target="_blank"><i class="fab fa-instagram"></i></a>
+    <a href="https://www.tiktok.com/@itsnotfar_afterall" target="_blank" class="tiktok"><i class="fab fa-tiktok"></i></a>
   </footer>
 
-  <!-- Firebase SDK -->
-  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js"></script>
+  <!-- ✅ Correct Firebase v10 Modular SDK -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+    import { getFirestore, collection, query, orderBy, onSnapshot } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-  <script>
-    function toggleMenu() {
-      const dropdown = document.getElementById('dropdown-menu');
-      dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
-    }
-
-    // Firebase config
     const firebaseConfig = {
       apiKey: "AIzaSyDhl8-z01pNxtiL6kWwmla79OFzsOamHnA",
       authDomain: "kilimanjaro-28f6d.firebaseapp.com",
       projectId: "kilimanjaro-28f6d",
-      storageBucket: "kilimanjaro-28f6d.firebasestorage.app",
+      storageBucket: "kilimanjaro-28f6d.appspot.com",
       messagingSenderId: "1034940817803",
       appId: "1:1034940817803:web:51be29aeff42e296870f8e",
       measurementId: "G-BEL0CY2F31"
     };
 
-    const app = firebase.initializeApp(firebaseConfig);
-    const db = firebase.firestore();
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
     const container = document.getElementById('feedbackContainer');
 
-    // Fetch feedbacks in real time
-    db.collection('feedback')
-      .orderBy('timestamp', 'desc')
-      .onSnapshot(snapshot => {
-        container.innerHTML = '';
-        if (snapshot.empty) {
-          container.innerHTML = '<p style="text-align:center; color:#ccc;">No feedbacks yet.</p>';
-          return;
-        }
+    window.toggleMenu = function() {
+      const dropdown = document.getElementById('dropdown-menu');
+      dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+    };
 
-        snapshot.forEach(doc => {
-          const data = doc.data();
-          const name = data.name || 'Anonymous';
-          const message = data.message || '';
-          const date = data.timestamp?.toDate?.().toLocaleString() || '';
+    // Fetch and display feedbacks
+    const q = query(collection(db, "feedback"), orderBy("timestamp", "desc"));
+    onSnapshot(q, (snapshot) => {
+      container.innerHTML = '';
 
-          const card = document.createElement('div');
-          card.className = 'feedback-card';
-          card.innerHTML = `
-            <div class="feedback-header">
-              <h3>${name}</h3>
-              <div class="feedback-date">${date}</div>
-            </div>
-            <div class="feedback-message">${message}</div>
-          `;
-          container.appendChild(card);
-        });
+      if (snapshot.empty) {
+        container.innerHTML = '<p style="text-align:center; color:#ccc;">No feedbacks yet.</p>';
+        return;
+      }
+
+      snapshot.forEach(doc => {
+        const data = doc.data();
+        const name = data.name || 'Anonymous';
+        const message = data.message || '';
+        const date = data.timestamp?.toDate?.().toLocaleString() || '';
+
+        const card = document.createElement('div');
+        card.className = 'feedback-card';
+        card.innerHTML = `
+          <div class="feedback-header">
+            <h3>${name}</h3>
+            <div class="feedback-date">${date}</div>
+          </div>
+          <div class="feedback-message">${message}</div>
+        `;
+        container.appendChild(card);
       });
+    });
   </script>
 </body>
 </html>

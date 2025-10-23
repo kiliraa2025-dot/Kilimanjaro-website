@@ -375,8 +375,80 @@
 </head>
 <body>
 
-  <!-- Your existing header, title, carousel, nav, description, image grid, map, footer -->
-  <!-- Copy your current homepage HTML here -->
+  <!-- Header -->
+  <div id="header">
+    <!-- Hamburger Menu -->
+    <div class="hamburger" onclick="toggleMenu()">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+
+    <!-- Logo Area -->
+    <div class="logo-group">
+      <img src="images/kili_logo.png" alt="Kilimanjaro Logo">
+      <img src="images/uj_20_years.png" alt="UJ 20 Years Logo">
+    </div>
+
+    <!-- Dropdown Menu -->
+    <div class="dropdown" id="dropdown-menu">
+      <a href="leadership_members/2025/leadership.html">Leadership</a>
+      <a href="learning_tools.html">Learning Tools</a>
+      <a href="UJ_Tools.html">UJ Tools</a>
+      <a href="Games.html">Games</a>
+      <a href="Contact.html">Contact</a>
+      <a href="Emergency_Contacts.html">Emergency Contacts</a>
+      <a href="About.html">About</a>
+      <a href="Admin_Login.html">Admin Login</a>
+    </div>
+  </div>
+
+  <!-- Centered Title -->
+  <div id="title">
+    <h1><span class="kiliman">KILIMAN</span><span class="jaro">JARO</span></h1>
+    <p>It's Not Far After All</p>
+  </div>
+
+  <!-- Carousel -->
+  <div class="carousel-container">
+    <div class="carousel-track" id="carousel-track">
+      <div class="carousel-slide"><img src="images/24_HR_STUDY_AREA.png" alt="Slide 1"></div>
+      <div class="carousel-slide"><img src="images/res_culture.png" alt="Slide 2"></div>
+      <div class="carousel-slide"><img src="images/KLEANIMANJARO.png" alt="Slide 3"></div>
+      <div class="carousel-slide"><img src="images/kilicares.png" alt="Slide 4"></div>
+    </div>
+    <div class="carousel-buttons">
+      <button onclick="prevSlide()">‹</button>
+      <button onclick="nextSlide()">›</button>
+    </div>
+  </div>
+
+  <!-- NAVBAR -->
+  <nav>
+    <a href="Facilities.html"><button>Facilities</button></a>
+    <a href="KiliSports.html"><button>KiliSports</button></a>
+    <a href="Previous_Events.html"><button>Previous Events</button></a>
+    <a href="Upcoming_Events.html"><button>Upcoming Events</button></a>
+    <a href=""><button class="donate">Donate</button></a>
+  </nav>
+
+  <!-- Description -->
+  <p id="description">
+    Kilimanjaro is a safe space within the University of Johannesburg’s Auckland Park Bunting Road campus, dedicated to encouraging student wellness and development.
+  </p>
+
+  <!-- Image Grid -->
+  <div id="image-grid">
+    <img src="images/spelling_bee.png" alt="Kilicares Image">
+    <img src="images/outside.png" alt="Kilijaro Image 1">
+    <img src="images/kilisports.png" alt="Kilijaro Image 2">
+    <img src="images/res_battle.png" alt="Kilijaro Image 3">
+  </div>
+
+  <!-- Google Map -->
+  <div id="map-container">
+<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3580.186680610193!2d28.0137279!3d-26.1906049!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1e950bf6ddde22f1%3A0x957f9acb5edc5ee9!2sKilimanjaro%20mens%20residence!5e0!3m2!1sen!2sza!4v1756740603257!5m2!1sen!2sza" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+  </div>
 
   <!-- Announcement Popup -->
   <div id="announcement-popup">
@@ -386,6 +458,16 @@
       <div id="popup-announcements"></div>
     </div>
   </div>
+
+  <!-- Footer -->
+  <footer>
+    <a href="https://www.instagram.com/kilimanjaro_residence_uj/" target="_blank" rel="noopener" aria-label="Instagram">
+      <i class="fab fa-instagram"></i>
+    </a>
+    <a href="https://www.tiktok.com/@itsnotfar_afterall" target="_blank" rel="noopener" aria-label="TikTok" class="tiktok">
+      <i class="fab fa-tiktok"></i>
+    </a>
+  </footer>
 
 <script>
   // Firebase Config

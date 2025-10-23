@@ -12,34 +12,19 @@
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
 
 <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+  /* RESET & existing styles */
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html, body { font-family: Arial, sans-serif; height: 100%; overflow-x:hidden; }
+  body { background-color:#4e0506; position:relative; color:white; }
+  body::before {
+    content:"";
+    position:absolute; top:0; left:0; width:100%; height:100%;
+    backdrop-filter: blur(10px);
+    background-color: rgba(128,0,0,0.5);
+    z-index:-1;
+  }
 
-    html, body {
-      font-family: Arial, sans-serif;
-      height: 100%;
-      overflow-x: hidden;
-    }
-
-    body {
-      background-color: #4e0506;
-      position: relative;
-      color: white;
-    }
-
-    /* Blurred overlay */
-    body::before {
-      content: "";
-      position: absolute;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      backdrop-filter: blur(10px);
-      background-color: rgba(128, 0, 0, 0.5); /* Maroon overlay */
-      z-index: -1;
-    }
+  /* HEADER, Title, Carousel, Nav, Description, Image Grid, Map, Footer - keep your previous CSS here */
 
     /* HEADER */
     #header {
@@ -333,73 +318,74 @@
       }
     }
 
-  /* Modal Styles */
-  #announcement-modal {
-    display: none; /* Hidden by default */
-    position: fixed;
-    z-index: 999;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    overflow: auto;
-    background-color: rgba(0,0,0,0.7);
+  /* Popup Modal Styles */
+  #announcement-popup {
+    display:none; 
+    position:fixed; 
+    top:0; left:0; 
+    width:100%; height:100%; 
+    background-color: rgba(0,0,0,0.6); 
+    z-index:999; 
+    overflow:auto;
+    display: flex; 
+    justify-content: center; 
+    align-items: center;
+    padding: 20px;
   }
 
-  #announcement-modal .modal-content {
+  #announcement-popup .popup-content {
     background-color: #4e0506;
-    margin: 10% auto;
     padding: 20px;
     border-radius: 10px;
-    width: 90%;
+    width: 100%;
     max-width: 500px;
     color: white;
     text-align: left;
-    font-size: 18px;
     position: relative;
   }
 
-  #announcement-modal .close-btn {
+  #announcement-popup h2 {
+    text-align: center;
+    margin-bottom: 15px;
+    font-size: 24px;
+  }
+
+  #announcement-popup p {
+    margin: 10px 0;
+    line-height: 1.4;
+    font-size: 18px;
+  }
+
+  #announcement-popup .close-popup {
     position: absolute;
     top: 10px;
     right: 15px;
-    color: white;
     font-size: 28px;
     font-weight: bold;
+    color: white;
     cursor: pointer;
   }
 
-  #announcement-modal .close-btn:hover {
+  #announcement-popup .close-popup:hover {
     color: #ccc;
-  }
-
-  #announcement-modal h2 {
-    text-align: center;
-    margin-bottom: 15px;
-  }
-
-  #announcement-modal p {
-    margin: 10px 0;
-    line-height: 1.4;
   }
 </style>
 
-<!-- FontAwesome for social icons -->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" rel="stylesheet">
 </head>
 <body>
 
-<!-- Header, Title, Carousel, Nav, Description, Images, Map, Footer (unchanged) -->
-<!-- ... copy your existing HTML content here ... -->
+  <!-- Your existing header, title, carousel, nav, description, image grid, map, footer -->
+  <!-- Copy your current homepage HTML here -->
 
-<!-- Announcement Modal -->
-<div id="announcement-modal">
-  <div class="modal-content" id="modal-content">
-    <span class="close-btn" id="close-modal">&times;</span>
-    <h2>Announcements</h2>
-    <div id="modal-announcements"></div>
+  <!-- Announcement Popup -->
+  <div id="announcement-popup">
+    <div class="popup-content">
+      <span class="close-popup" id="close-announcement">&times;</span>
+      <h2>Announcements</h2>
+      <div id="popup-announcements"></div>
+    </div>
   </div>
-</div>
 
 <script>
   // Firebase Config
@@ -416,47 +402,41 @@
   const db = firebase.firestore();
 
   // Fetch announcements (last 3 days)
-  const modal = document.getElementById('announcement-modal');
-  const modalContent = document.getElementById('modal-announcements');
-  const closeBtn = document.getElementById('close-modal');
+  const popup = document.getElementById('announcement-popup');
+  const popupContent = document.getElementById('popup-announcements');
+  const closeBtn = document.getElementById('close-announcement');
 
-  db.collection("announcements").orderBy("timestamp", "desc").get().then(snapshot => {
+  db.collection("announcements").orderBy("timestamp","desc").get().then(snapshot => {
     const now = new Date();
-    let hasAnnouncement = false;
+    let hasAnnouncements = false;
+
     snapshot.forEach(doc => {
       const data = doc.data();
       const created = data.timestamp.toDate();
       const diffDays = (now - created)/(1000*60*60*24);
       if(diffDays <= 3){
-        hasAnnouncement = true;
+        hasAnnouncements = true;
         const p = document.createElement('p');
-        p.innerText = data.text;
-        modalContent.appendChild(p);
+        p.textContent = data.text;
+        popupContent.appendChild(p);
       }
     });
-    if(hasAnnouncement){
-      modal.style.display = "block";
+
+    if(hasAnnouncements){
+      popup.style.display = "flex";
     }
   });
 
-  // Close modal
-  closeBtn.onclick = () => {
-    modal.style.display = "none";
-  };
+  closeBtn.onclick = () => { popup.style.display = "none"; };
+  window.onclick = (e) => { if(e.target == popup) popup.style.display = "none"; };
 
-  // Close if user clicks outside modal content
-  window.onclick = (event) => {
-    if(event.target == modal){
-      modal.style.display = "none";
-    }
-  };
-
-  // Hamburger & Carousel scripts (existing)
-  function toggleMenu() {
+  // Hamburger Menu
+  function toggleMenu(){
     const dropdown = document.getElementById('dropdown-menu');
-    dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+    dropdown.style.display = dropdown.style.display==='block'?'none':'block';
   }
 
+  // Carousel functionality
   const track = document.getElementById('carousel-track');
   const slides = Array.from(track.children);
   let currentIndex = 0;
@@ -466,20 +446,11 @@
     track.style.transform = `translateX(-${currentIndex * slideWidth}px)`;
   }
 
-  function nextSlide() {
-    currentIndex = (currentIndex + 1) % slides.length;
-    updateCarousel();
-  }
-
-  function prevSlide() {
-    currentIndex = (currentIndex - 1 + slides.length) % slides.length;
-    updateCarousel();
-  }
+  function nextSlide() { currentIndex = (currentIndex + 1) % slides.length; updateCarousel(); }
+  function prevSlide() { currentIndex = (currentIndex - 1 + slides.length) % slides.length; updateCarousel(); }
 
   window.addEventListener('resize', updateCarousel);
   updateCarousel();
 </script>
-
 </body>
 </html>
-

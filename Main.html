@@ -1,17 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Kilimanjaro</title>
-  <link rel="icon" type="images/kili_logo.png" href="images/kili_logo.png" />
-  
-  <!-- Firebase SDK -->
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Kilimanjaro</title>
+<link rel="icon" type="images/kili_logo.png" href="images/kili_logo.png" />
 
-  <style>
+<!-- Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+
+<style>
     * {
       margin: 0;
       padding: 0;
@@ -332,162 +332,143 @@
         height: 300px;
       }
     }
-  </style>
 
-  <!-- FontAwesome for social icons -->
+  /* Modal Styles */
+  #announcement-modal {
+    display: none; /* Hidden by default */
+    position: fixed;
+    z-index: 999;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.7);
+  }
+
+  #announcement-modal .modal-content {
+    background-color: #4e0506;
+    margin: 15% auto;
+    padding: 20px;
+    border-radius: 10px;
+    width: 90%;
+    max-width: 500px;
+    color: white;
+    text-align: center;
+    font-size: 18px;
+    position: relative;
+  }
+
+  #announcement-modal .close-btn {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    color: white;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+  }
+
+  #announcement-modal .close-btn:hover {
+    color: #ccc;
+  }
+</style>
+
+<!-- FontAwesome for social icons -->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" rel="stylesheet">
 </head>
 <body>
 
-  <!-- Header -->
-  <div id="header">
-    <div class="hamburger" onclick="toggleMenu()">
-      <span></span>
-      <span></span>
-      <span></span>
-    </div>
-    <div class="logo-group">
-      <img src="images/kili_logo.png" alt="Kilimanjaro Logo">
-      <img src="images/uj_20_years.png" alt="UJ 20 Years Logo">
-    </div>
-    <div class="dropdown" id="dropdown-menu">
-      <a href="leadership_members/2025/leadership.html">Leadership</a>
-      <a href="learning_tools.html">Learning Tools</a>
-      <a href="UJ_Tools.html">UJ Tools</a>
-      <a href="Games.html">Games</a>
-      <a href="Contact.html">Contact</a>
-      <a href="Emergency_Contacts.html">Emergency Contacts</a>
-      <a href="About.html">About</a>
-      <a href="Admin_Login.html">Admin Login</a>
-    </div>
+<!-- Header, Title, Carousel, Nav, Description, Images, Map, Footer (unchanged) -->
+<!-- ... copy your existing HTML content here ... -->
+
+<!-- Announcement Modal -->
+<div id="announcement-modal">
+  <div class="modal-content" id="modal-content">
+    <span class="close-btn" id="close-modal">&times;</span>
+    <div id="modal-announcements"></div>
   </div>
+</div>
 
-  <!-- Centered Title -->
-  <div id="title">
-    <h1><span class="kiliman">KILIMAN</span><span class="jaro">JARO</span></h1>
-    <p>It's Not Far After All</p>
-  </div>
+<script>
+  // Firebase Config
+  const firebaseConfig = {
+    apiKey: "AIzaSyDhl8-z01pNxtiL6kWwmla79OFzsOamHnA",
+    authDomain: "kilimanjaro-28f6d.firebaseapp.com",
+    projectId: "kilimanjaro-28f6d",
+    storageBucket: "kilimanjaro-28f6d.firebasestorage.app",
+    messagingSenderId: "1034940817803",
+    appId: "1:1034940817803:web:51be29aeff42e296870f8e",
+    measurementId: "G-BEL0CY2F31"
+  };
+  firebase.initializeApp(firebaseConfig);
+  const db = firebase.firestore();
 
-  <!-- Announcements Section -->
-  <div id="announcements" style="max-width:600px; margin:20px auto; text-align:center; z-index:10;">
-    <!-- Announcements will be injected here -->
-  </div>
+  // Fetch announcements (only show for 3 days) and display in modal
+  const modal = document.getElementById('announcement-modal');
+  const modalContent = document.getElementById('modal-announcements');
+  const closeBtn = document.getElementById('close-modal');
 
-  <!-- Carousel -->
-  <div class="carousel-container">
-    <div class="carousel-track" id="carousel-track">
-      <div class="carousel-slide"><img src="images/24_HR_STUDY_AREA.png" alt="Slide 1"></div>
-      <div class="carousel-slide"><img src="images/res_culture.png" alt="Slide 2"></div>
-      <div class="carousel-slide"><img src="images/KLEANIMANJARO.png" alt="Slide 3"></div>
-      <div class="carousel-slide"><img src="images/kilicares.png" alt="Slide 4"></div>
-    </div>
-    <div class="carousel-buttons">
-      <button onclick="prevSlide()">‹</button>
-      <button onclick="nextSlide()">›</button>
-    </div>
-  </div>
-
-  <!-- NAVBAR -->
-  <nav>
-    <a href="Facilities.html"><button>Facilities</button></a>
-    <a href="KiliSports.html"><button>KiliSports</button></a>
-    <a href="Previous_Events.html"><button>Previous Events</button></a>
-    <a href="Upcoming_Events.html"><button>Upcoming Events</button></a>
-    <a href="Donation.html"><button class="donate">Donate</button></a>
-  </nav>
-
-  <!-- Description -->
-  <p id="description">
-    Kilimanjaro is a safe space within the University of Johannesburg’s Auckland Park Bunting Road campus, dedicated to encouraging student wellness and development.
-  </p>
-
-  <!-- Image Grid -->
-  <div id="image-grid">
-    <img src="images/spelling_bee.png" alt="Kilicares Image">
-    <img src="images/HKs/panel_photo.png" alt="Kilijaro Image 1">
-    <img src="images/kilisports.png" alt="Kilijaro Image 2">
-    <img src="images/res_battle.png" alt="Kilijaro Image 3">
-  </div>
-
-  <!-- Google Map -->
-  <div id="map-container">
-<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3580.186680610193!2d28.0137279!3d-26.1906049!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1e950bf6ddde22f1%3A0x957f9acb5edc5ee9!2sKilimanjaro%20mens%20residence!5e0!3m2!1sen!2sza!4v1756740603257!5m2!1sen!2sza" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-  </div>
-
-  <!-- Footer -->
-  <footer>
-    <a href="https://www.instagram.com/kilimanjaro_residence_uj/" target="_blank" rel="noopener" aria-label="Instagram">
-      <i class="fab fa-instagram"></i>
-    </a>
-    <a href="https://www.tiktok.com/@itsnotfar_afterall" target="_blank" rel="noopener" aria-label="TikTok" class="tiktok">
-      <i class="fab fa-tiktok"></i>
-    </a>
-  </footer>
-
-  <script>
-    // Firebase Config
-    const firebaseConfig = {
-      apiKey: "AIzaSyDhl8-z01pNxtiL6kWwmla79OFzsOamHnA",
-      authDomain: "kilimanjaro-28f6d.firebaseapp.com",
-      projectId: "kilimanjaro-28f6d",
-      storageBucket: "kilimanjaro-28f6d.firebasestorage.app",
-      messagingSenderId: "1034940817803",
-      appId: "1:1034940817803:web:51be29aeff42e296870f8e",
-      measurementId: "G-BEL0CY2F31"
-    };
-    firebase.initializeApp(firebaseConfig);
-    const db = firebase.firestore();
-
-    // Fetch announcements (only show for 3 days)
-    const announcementsDiv = document.getElementById('announcements');
-    db.collection("announcements").orderBy("timestamp", "desc").get().then(snapshot => {
-      const now = new Date();
-      snapshot.forEach(doc => {
-        const data = doc.data();
-        const created = data.timestamp.toDate();
-        const diffDays = (now - created)/(1000*60*60*24);
-        if(diffDays <= 3){
-          const div = document.createElement('div');
-          div.style.background = "rgba(255,255,255,0.1)";
-          div.style.margin = "10px 0";
-          div.style.padding = "15px";
-          div.style.borderRadius = "8px";
-          div.style.fontSize = "18px";
-          div.innerText = data.text;
-          announcementsDiv.appendChild(div);
-        }
-      });
+  db.collection("announcements").orderBy("timestamp", "desc").get().then(snapshot => {
+    const now = new Date();
+    let hasAnnouncement = false;
+    snapshot.forEach(doc => {
+      const data = doc.data();
+      const created = data.timestamp.toDate();
+      const diffDays = (now - created)/(1000*60*60*24);
+      if(diffDays <= 3){
+        hasAnnouncement = true;
+        const p = document.createElement('p');
+        p.style.margin = "10px 0";
+        p.innerText = data.text;
+        modalContent.appendChild(p);
+      }
     });
-
-    // Toggle hamburger menu dropdown
-    function toggleMenu() {
-      const dropdown = document.getElementById('dropdown-menu');
-      dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+    if(hasAnnouncement){
+      modal.style.display = "block";
     }
+  });
 
-    // Carousel functionality
-    const track = document.getElementById('carousel-track');
-    const slides = Array.from(track.children);
-    let currentIndex = 0;
+  // Close modal
+  closeBtn.onclick = () => {
+    modal.style.display = "none";
+  };
 
-    function updateCarousel() {
-      const slideWidth = slides[0].getBoundingClientRect().width;
-      track.style.transform = `translateX(-${currentIndex * slideWidth}px)`;
+  // Close if user clicks outside modal content
+  window.onclick = (event) => {
+    if(event.target == modal){
+      modal.style.display = "none";
     }
+  };
 
-    function nextSlide() {
-      currentIndex = (currentIndex + 1) % slides.length;
-      updateCarousel();
-    }
+  // Existing hamburger, carousel scripts
+  function toggleMenu() {
+    const dropdown = document.getElementById('dropdown-menu');
+    dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+  }
 
-    function prevSlide() {
-      currentIndex = (currentIndex - 1 + slides.length) % slides.length;
-      updateCarousel();
-    }
+  const track = document.getElementById('carousel-track');
+  const slides = Array.from(track.children);
+  let currentIndex = 0;
 
-    window.addEventListener('resize', updateCarousel);
+  function updateCarousel() {
+    const slideWidth = slides[0].getBoundingClientRect().width;
+    track.style.transform = `translateX(-${currentIndex * slideWidth}px)`;
+  }
+
+  function nextSlide() {
+    currentIndex = (currentIndex + 1) % slides.length;
     updateCarousel();
-  </script>
+  }
+
+  function prevSlide() {
+    currentIndex = (currentIndex - 1 + slides.length) % slides.length;
+    updateCarousel();
+  }
+
+  window.addEventListener('resize', updateCarousel);
+  updateCarousel();
+</script>
 
 </body>
 </html>

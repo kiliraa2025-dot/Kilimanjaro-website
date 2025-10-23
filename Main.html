@@ -5,9 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Kilimanjaro</title>
   <link rel="icon" type="images/kili_logo.png" href="images/kili_logo.png" />
+  
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
 
   <style>
-    /* RESET */
     * {
       margin: 0;
       padding: 0;
@@ -337,20 +341,15 @@
 
   <!-- Header -->
   <div id="header">
-    <!-- Hamburger Menu -->
     <div class="hamburger" onclick="toggleMenu()">
       <span></span>
       <span></span>
       <span></span>
     </div>
-
-    <!-- Logo Area -->
     <div class="logo-group">
       <img src="images/kili_logo.png" alt="Kilimanjaro Logo">
       <img src="images/uj_20_years.png" alt="UJ 20 Years Logo">
     </div>
-
-    <!-- Dropdown Menu -->
     <div class="dropdown" id="dropdown-menu">
       <a href="leadership_members/2025/leadership.html">Leadership</a>
       <a href="learning_tools.html">Learning Tools</a>
@@ -367,6 +366,11 @@
   <div id="title">
     <h1><span class="kiliman">KILIMAN</span><span class="jaro">JARO</span></h1>
     <p>It's Not Far After All</p>
+  </div>
+
+  <!-- Announcements Section -->
+  <div id="announcements" style="max-width:600px; margin:20px auto; text-align:center; z-index:10;">
+    <!-- Announcements will be injected here -->
   </div>
 
   <!-- Carousel -->
@@ -421,6 +425,40 @@
   </footer>
 
   <script>
+    // Firebase Config
+    const firebaseConfig = {
+      apiKey: "AIzaSyDhl8-z01pNxtiL6kWwmla79OFzsOamHnA",
+      authDomain: "kilimanjaro-28f6d.firebaseapp.com",
+      projectId: "kilimanjaro-28f6d",
+      storageBucket: "kilimanjaro-28f6d.firebasestorage.app",
+      messagingSenderId: "1034940817803",
+      appId: "1:1034940817803:web:51be29aeff42e296870f8e",
+      measurementId: "G-BEL0CY2F31"
+    };
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+
+    // Fetch announcements (only show for 3 days)
+    const announcementsDiv = document.getElementById('announcements');
+    db.collection("announcements").orderBy("timestamp", "desc").get().then(snapshot => {
+      const now = new Date();
+      snapshot.forEach(doc => {
+        const data = doc.data();
+        const created = data.timestamp.toDate();
+        const diffDays = (now - created)/(1000*60*60*24);
+        if(diffDays <= 3){
+          const div = document.createElement('div');
+          div.style.background = "rgba(255,255,255,0.1)";
+          div.style.margin = "10px 0";
+          div.style.padding = "15px";
+          div.style.borderRadius = "8px";
+          div.style.fontSize = "18px";
+          div.innerText = data.text;
+          announcementsDiv.appendChild(div);
+        }
+      });
+    });
+
     // Toggle hamburger menu dropdown
     function toggleMenu() {
       const dropdown = document.getElementById('dropdown-menu');
@@ -450,9 +488,6 @@
     window.addEventListener('resize', updateCarousel);
     updateCarousel();
   </script>
+
 </body>
 </html>
-
-
-
-

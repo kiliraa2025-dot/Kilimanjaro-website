@@ -8,221 +8,51 @@
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" rel="stylesheet">
 
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body { font-family: Arial, sans-serif; background:#4e0506; color:white; position:relative; }
+    body::before { content:""; position:absolute; top:0; left:0; width:100%; height:100%; backdrop-filter:blur(10px); background:rgba(128,0,0,0.5); z-index:-1; }
 
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #4e0506;
-      color: white;
-      position: relative;
-      overflow-x: hidden;
-    }
+    #header { display:flex; justify-content:space-between; align-items:center; padding:10px 15px; background:rgba(255,255,255,0.1); }
+    .hamburger { display:flex; flex-direction:column; justify-content:space-between; height:20px; cursor:pointer; }
+    .hamburger span { width:25px; height:3px; background:white; }
+    .logo-group { display:flex; align-items:center; gap:10px; }
+    .logo-group img { height:40px; }
+    .dropdown-menu { display:none; position:absolute; top:60px; left:15px; background:rgba(0,0,0,0.9); padding:10px; border-radius:5px; z-index:1000; }
+    .dropdown-menu a { color:white; text-decoration:none; display:block; padding:8px 10px; }
+    .dropdown-menu a:hover { background:rgba(255,255,255,0.1); }
 
-    body::before {
-      content: "";
-      position: absolute;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      backdrop-filter: blur(10px);
-      background-color: rgba(128, 0, 0, 0.5);
-      z-index: -1;
-    }
+    #title { text-align:center; margin-top:30px; }
+    #title h1 { font-size:42px; }
+    #title .kiliman { color:black; } #title .jaro { color:white; }
+    #title p { font-size:18px; margin-top:10px; font-style:italic; }
 
-    #header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 10px 15px;
-      background-color: rgba(255, 255, 255, 0.1);
-    }
+    #fixtures { margin:40px 20px; text-align:center; }
+    #fixtures h2 { font-size:28px; margin-bottom:20px; }
+    .fixture { background:white; padding:20px; margin-bottom:20px; border-radius:10px; color:black; }
+    .match-date { font-weight:bold; font-size:16px; }
+    .venue { font-size:14px; margin-bottom:10px; }
+    .teams { display:flex; justify-content:center; align-items:center; gap:15px; flex-wrap:wrap; }
+    .team { font-weight:bold; white-space:nowrap; }
+    .score { font-size:18px; font-weight:bold; }
 
-    .hamburger {
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      height: 20px;
-      cursor: pointer;
-    }
+    footer { background:rgba(0,0,0,0.7); padding:20px 15px; text-align:center; margin-top:40px; }
+    footer a { color:white; margin:0 15px; font-size:24px; text-decoration:none; }
+    footer a:hover { color:#d44638; }
+    footer a.tiktok:hover { color:#00f2ea; }
 
-    .hamburger span {
-      width: 25px;
-      height: 3px;
-      background: white;
-    }
-
-    .logo-group {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .logo-group img {
-      height: 40px;
-    }
-
-    .dropdown-menu {
-      display: none;
-      position: absolute;
-      top: 60px;
-      left: 15px;
-      background-color: rgba(0, 0, 0, 0.9);
-      padding: 10px;
-      border-radius: 5px;
-      z-index: 1000;
-    }
-
-    .dropdown-menu a {
-      color: white;
-      text-decoration: none;
-      display: block;
-      padding: 8px 10px;
-    }
-
-    .dropdown-menu a:hover {
-      background-color: rgba(255, 255, 255, 0.1);
-    }
-
-    #title {
-      text-align: center;
-      margin-top: 30px;
-    }
-
-    #title h1 {
-      font-size: 42px;
-    }
-
-    #title .kiliman { color: black; }
-    #title .jaro { color: white; }
-
-    #title p {
-      font-size: 18px;
-      margin-top: 10px;
-      font-style: italic;
-    }
-
-    #fixtures {
-      margin: 40px 20px;
-      text-align: center;
-    }
-
-    #fixtures h2 {
-      font-size: 28px;
-      margin-bottom: 20px;
-    }
-
-    .fixture {
-      background-color: white;
-      padding: 20px;
-      margin-bottom: 20px;
-      border-radius: 10px;
-    }
-
-    .match-date {
-      font-weight: bold;
-      font-size: 16px;
-      color: black;
-    }
-
-    .venue {
-      font-size: 14px;
-      margin-bottom: 10px;
-      color: black;
-    }
-
-    .teams {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 15px;
-      flex-wrap: wrap;
-    }
-
-    .team {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-weight: bold;
-      color: black;
-      white-space: nowrap;
-    }
-
-    .team img {
-      width: 30px;
-      height: 30px;
-      object-fit: cover;
-      border-radius: 50%;
-    }
-
-    .score {
-      font-size: 18px;
-      font-weight: bold;
-      color: black;
-    }
-
-    footer {
-      background-color: rgba(0, 0, 0, 0.7);
-      padding: 20px 15px;
-      text-align: center;
-      margin-top: 40px;
-    }
-
-    footer a {
-      color: white;
-      margin: 0 15px;
-      font-size: 24px;
-      text-decoration: none;
-    }
-
-    footer a:hover {
-      color: #d44638;
-    }
-
-    footer a.tiktok:hover {
-      color: #00f2ea;
-    }
-
-    @media (max-width: 600px) {
-      #title h1 { font-size: 28px; }
-      #title p { font-size: 14px; }
-      .logo-group img { height: 30px; }
-
-      /* Keep teams horizontal on mobile */
-      .teams {
-        flex-direction: row;
-        flex-wrap: wrap;
-        gap: 10px;
-      }
-
-      .team {
-        flex-direction: row;
-        justify-content: center;
-        align-items: center;
-      }
-
-      .team img {
-        width: 30px;
-        height: 30px;
-      }
-
-      .score {
-        margin: 0 10px;
-      }
+    @media (max-width:600px) {
+      #title h1 { font-size:28px; }
+      #title p { font-size:14px; }
+      .logo-group img { height:30px; }
+      .teams { flex-direction:row; gap:10px; }
     }
   </style>
 </head>
 <body>
-
   <!-- Header -->
   <div id="header">
-    <div class="hamburger" onclick="toggleMenu()">
-      <span></span>
-      <span></span>
-      <span></span>
-    </div>
-    <div class="logo-group">
-      <img src="../images/kili_logo.png" alt="Kilimanjaro Logo">
-      <img src="../images/uj_20_years.png" alt="UJ 20 Years Logo">
-    </div>
+    <div class="hamburger" onclick="toggleMenu()"><span></span><span></span><span></span></div>
+    <div class="logo-group"><img src="../images/kili_logo.png" alt="Kilimanjaro Logo"><img src="../images/uj_20_years.png" alt="UJ Logo"></div>
     <div class="dropdown-menu" id="dropdown-menu">
       <a href="../Index.html">Home</a>
       <a href="../About.html">About</a>
@@ -232,190 +62,61 @@
   </div>
 
   <!-- Title -->
-  <div id="title">
-    <h1><span class="kiliman">KILIMAN</span><span class="jaro">JARO</span></h1>
-    <p>Soccer</p>
-  </div>
+  <div id="title"><h1><span class="kiliman">KILIMAN</span><span class="jaro">JARO</span></h1><p>Soccer</p></div>
 
   <!-- Fixtures Section -->
   <section id="fixtures">
     <h2>Fixtures</h2>
-
-    <div class="fixture">
-      <p class="match-date">13 October 2025</p>
-      <p class="venue">Soccer Field(Major League 2025)</p>
-      <div class="teams">
-        <div class="team">
-          <img src="teams/gateway_royal_stars.png" alt="Team A Logo">
-          <span>Gateway Royal Stars</span>
-        </div>
-        <div class="score">2 - 1</div>
-        <div class="team">
-          <img src="teams/kilimanjaro.png" alt="Team B Logo">
-          <span>Kilimanjaro</span>
-        </div>
-      </div>
-    </div>
-
-    <div class="fixture">
-      <p class="match-date">29 September 2025</p>
-      <p class="venue">Soccer Field(Major League 2025)</p>
-      <div class="teams">
-        <div class="team">
-          <img src="teams/kilimanjaro.png" alt="Team A Logo">
-          <span>Kilimanjaro(Away)</span>
-        </div>
-        <div class="score">0 - 1</div>
-        <div class="team">
-          <img src="teams/city_waldorf_fc.png" alt="Team B Logo">
-          <span>City Waldorf FC(Home)</span>
-        </div>
-      </div>
-    </div>
-    
-    <div class="fixture">
-      <p class="match-date">17 September 2025</p>
-      <p class="venue">Soccer Field(Major League 2025)</p>
-      <div class="teams">
-        <div class="team">
-          <img src="teams/kilimanjaro.png" alt="Team A Logo">
-          <span>Kilimanjaro(Home)</span>
-        </div>
-        <div class="score">1 - 1(Pens 2 - 3)</div>
-        <div class="team">
-          <img src="teams/electrical_fc.png" alt="Team B Logo">
-          <span>Electrical FC(Away)</span>
-        </div>
-      </div>
-    </div>
-    
-    <div class="fixture">
-      <p class="match-date">12 September 2025</p>
-      <p class="venue">Softball Field(Major League 2025)</p>
-      <div class="teams">
-        <div class="team">
-          <img src="teams/kilimanjaro.png" alt="Team A Logo">
-          <span>Kilimanjaro(Away)</span>
-        </div>
-        <div class="score">2 - 3</div>
-        <div class="team">
-          <img src="teams/" alt="Team B Logo">
-          <span>Fedsure FC(Home)</span>
-        </div>
-      </div>
-    </div>
-    
-    <div class="fixture">
-      <p class="match-date">27 August 2025</p>
-      <p class="venue">Soccer Field(Major League 2025)</p>
-      <div class="teams">
-        <div class="team">
-          <img src="teams/kilimanjaro.png" alt="Team A Logo">
-          <span>Kilimanjaro(Home)</span>
-        </div>
-        <div class="score">2 - 1</div>
-        <div class="team">
-          <img src="teams/the_campus.png" alt="Team B Logo">
-          <span>The Fields United(Away)</span>
-        </div>
-      </div>
-    </div>
-    
-    <div class="fixture">
-      <p class="match-date">22 August 2025</p>
-      <p class="venue">Soccer Field(Major League 2025)</p>
-      <div class="teams">
-        <div class="team">
-          <img src="teams/kilimanjaro.png" alt="Team A Logo">
-          <span>Kilimanjaro(Home)</span>
-        </div>
-        <div class="score">2 - 3(HT 2 - 1)</div>
-        <div class="team">
-          <img src="teams/the_campus.png" alt="Team B Logo">
-          <span>The Campus(Away)</span>
-        </div>
-      </div>
-    </div>
-    
-    <div class="fixture">
-      <p class="match-date">20 August 2025</p>
-      <p class="venue">Soccer Field(Major League 2025)</p>
-      <div class="teams">
-        <div class="team">
-          <img src="teams/kilimanjaro.png" alt="Team A Logo">
-          <span>Kilimanjaro(Home)</span>
-        </div>
-        <div class="score">1 - 2</div>
-        <div class="team">
-          <img src="teams/oppierif.png" alt="Team B Logo">
-          <span>Oppierif(Away)</span>
-        </div>
-      </div>
-    </div>
-    
-    <div class="fixture">
-      <p class="match-date">15 August 2025</p>
-      <p class="venue">Soccer Field(Major League 2025)</p>
-      <div class="teams">
-        <div class="team">
-          <img src="teams/kilimanjaro.png" alt="Team A Logo">
-          <span>Kilimanjaro(Away)</span>
-        </div>
-        <div class="score">1 - 1</div>
-        <div class="team">
-          <img src="teams/ikhayalethu_fc.png" alt="Team B Logo">
-          <span>Ikhayalethu FC(Home)</span>
-        </div>
-      </div>
-    </div>
-
-    <div class="fixture">
-      <p class="match-date">06 August 2025</p>
-      <p class="venue">Soccer Field(Major League 2025)</p>
-      <div class="teams">
-        <div class="team">
-          <img src="teams/kilimanjaro.png" alt="Team A Logo">
-          <span>Kilimanjaro(Home)</span>
-        </div>
-        <div class="score">0 - 2</div>
-        <div class="team">
-          <img src="images/team_b.png" alt="Team B Logo">
-          <span>Opal FC(Away)</span>
-        </div>
-      </div>
-    </div>
-
+    <div id="fixtures-list"></div>
   </section>
 
-  <!-- Footer -->
   <footer>
-    <a href="https://www.instagram.com/kilimanjaro_residence_uj/" target="_blank" aria-label="Instagram">
-      <i class="fab fa-instagram"></i>
-    </a>
-    <a href="https://www.tiktok.com/@itsnotfar_afterall" target="_blank" aria-label="TikTok" class="tiktok">
-      <i class="fab fa-tiktok"></i>
-    </a>
+    <a href="https://www.instagram.com/kilimanjaro_residence_uj/" target="_blank"><i class="fab fa-instagram"></i></a>
+    <a href="https://www.tiktok.com/@itsnotfar_afterall" target="_blank" class="tiktok"><i class="fab fa-tiktok"></i></a>
   </footer>
 
-  <!-- Script -->
+  <!-- Firebase -->
+  <script src="https://www.gstatic.com/firebasejs/10.5.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.5.0/firebase-firestore-compat.js"></script>
+
   <script>
+    const firebaseConfig = {
+     apiKey: "AIzaSyDhl8-z01pNxtiL6kWwmla79OFzsOamHnA",
+     authDomain: "kilimanjaro-28f6d.firebaseapp.com",
+     projectId: "kilimanjaro-28f6d",
+     storageBucket: "kilimanjaro-28f6d.appspot.com",
+     messagingSenderId: "1034940817803",
+     appId: "1:1034940817803:web:51be29aeff42e296870f8e"
+};
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+
+    const fixturesList = document.getElementById("fixtures-list");
+
+    // Load fixtures dynamically
+    db.collection("Fixtures").orderBy("date", "desc").onSnapshot(snapshot => {
+      fixturesList.innerHTML = "";
+      snapshot.forEach(doc => {
+        const f = doc.data();
+        const fixtureDiv = document.createElement("div");
+        fixtureDiv.classList.add("fixture");
+        fixtureDiv.innerHTML = `
+          <p class="match-date">${new Date(f.date.seconds * 1000).toLocaleDateString()}</p>
+          <p class="venue">${f.venue}</p>
+          <div class="teams">
+            <div class="team">${f.team1}</div>
+            <div class="score">${f.score1} - ${f.score2}</div>
+            <div class="team">${f.team2}</div>
+          </div>
+        `;
+        fixturesList.appendChild(fixtureDiv);
+      });
+    });
+
     function toggleMenu() {
-      const menu = document.getElementById('dropdown-menu');
-      menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+      const menu = document.getElementById("dropdown-menu");
+      menu.style.display = menu.style.display === "block" ? "none" : "block";
     }
   </script>
-
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
